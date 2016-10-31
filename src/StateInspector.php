@@ -44,7 +44,7 @@ class StateInspector implements StateInspectorInterface
      * @param string $name
      * @param mixed $object
      * @param bool $bubble
-     * @return array
+     * @return InspectionInterface[]
      * @throws \Exception
      */
     final public function inspection(string $name, $object, $bubble = false): array
