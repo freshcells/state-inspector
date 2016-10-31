@@ -7,8 +7,8 @@ interface InspectionInterface
     /**
      * inspects the object
      *
-     * @param array $args
-     * @return mixed
+     * @param $object
+     * @return bool
      */
     public function inspect($object):bool;
 
