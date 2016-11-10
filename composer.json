@@ -1,5 +1,5 @@
 {
-    "name": ":freshcells/state-inspector",
+    "name": "freshcells/state-inspector",
     "type": "library",
     "description": "inspects the state of a given object",
     "keywords": [

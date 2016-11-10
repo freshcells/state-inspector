@@ -11,7 +11,7 @@
 Inspect if a state tree, a nested object or any object has certain states or values.
 
 
-An Inspector can take n Inspections and an Inspection can produce several issues.
+An Inspector can take n Inspections and an Inspection can produce several Issues.
 The Inspector iterates Inspections which inspect the given object.  
 
 Each inspection has a success and failure callback.  
@@ -31,6 +31,11 @@ $ composer require freshcells/state-inspector
 ```
 
 ## Usage
+
+        $inspector = new StateInspector();
+        $inspector->addInspection(new FooInspection());
+        $inspector->inspect($object);
+        $issues =  $inspector->getIssues()
 
 See tests.
 
