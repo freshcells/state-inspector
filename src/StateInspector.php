@@ -25,7 +25,7 @@ class StateInspector implements StateInspectorInterface
     public function __construct(array $inspections = [])
     {
         foreach ($inspections as $name => $inspection) {
-            if(is_numeric($name)){
+            if (is_numeric($name)) {
                 $name = null;
             }
             $this->addInspection($inspection, $name);
@@ -99,7 +99,7 @@ class StateInspector implements StateInspectorInterface
      */
     final public function addInspection(InspectionInterface $inspection, string $name = null): StateInspectorInterface
     {
-        if(null === $name){
+        if (null === $name) {
             $name = get_class($inspection);
         }
         $this->inspections[$name] = $inspection;
