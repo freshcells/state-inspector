@@ -23,11 +23,6 @@ interface InspectionInterface
     public function failure();
 
     /**
-     * @return string
-     */
-    public function getName():string;
-
-    /**
      * returns all found issues
      *
      * @return IssueInterface[]

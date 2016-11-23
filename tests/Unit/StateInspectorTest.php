@@ -23,14 +23,12 @@ class StateInspectorTest extends \PHPUnit_Framework_TestCase
         $object = new TestObject('prop', new \DateTime('now'), ['Hecht', 'Barsch', 'Zander']);
 
         $inspection1 = $this->prophesize(InspectionInterface::class);
-        $inspection1->getName()->shouldBeCalled()->willReturn('inspection1');
         $inspection1->supports(Argument::exact($object))->shouldBeCalled()->willReturn(true);
         $inspection1->inspect(Argument::exact($object))->shouldBeCalled()->willReturn(true);
         $inspection1->success()->shouldBeCalled();
         $inspection1->getIssues()->shouldBeCalled()->willReturn([]);
 
         $inspection2 = $this->prophesize(InspectionInterface::class);
-        $inspection2->getName()->shouldBeCalled()->willReturn('inspection2');
         $inspection2->supports(Argument::exact($object))->shouldBeCalled()->willReturn(true);
         $inspection2->inspect(Argument::exact($object))->shouldBeCalled()->willReturn(false);
         $inspection2->failure()->shouldBeCalled();

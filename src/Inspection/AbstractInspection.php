@@ -24,11 +24,6 @@ abstract class AbstractInspection implements InspectionInterface
     abstract public function inspect($object):bool;
 
     /**
-     * @return string
-     */
-    abstract public function getName():string;
-
-    /**
      * @param mixed $object
      * @return bool
      */

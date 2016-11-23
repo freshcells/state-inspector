@@ -21,11 +21,6 @@ class PelicanInspection extends AbstractInspection
         throw new StateInspectorException($issue);
     }
 
-    public function getName():string
-    {
-        return 'pelican_inspection';
-    }
-
     public function supports($object):bool
     {
         return $object instanceof TestObject;

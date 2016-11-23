@@ -18,6 +18,17 @@ class StateInspectorTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $inspector->getIssues());
     }
 
+    public function testInspection()
+    {
+        $object            = new TestObject('prop', new \DateTime('now'), ['Herron', 'Stork', 'Pelican']);
+        $pelicanInspection = new PelicanInspection();
+        $inspector         = new StateInspector([$pelicanInspection]);
+        $inspector->addInspection($pelicanInspection, 'other_pelican_inspection');
+        $inspector->inspection('other_pelican_inspection', $object);
+        $inspector->inspection(PelicanInspection::class, $object);
+        $this->assertCount(0, $inspector->getIssues());
+    }
+
     public function testFailInspect()
     {
         $inspector         = new StateInspector();

@@ -2,7 +2,9 @@
 
 namespace Freshcells\StateInspector;
 
+use Freshcells\StateInspector\Exception\StateInspectorException;
 use Freshcells\StateInspector\Inspection\InspectionInterface;
+use Freshcells\StateInspector\Issue\Issue;
 
 class StateInspector implements StateInspectorInterface
 {
@@ -22,8 +24,11 @@ class StateInspector implements StateInspectorInterface
      */
     public function __construct(array $inspections = [])
     {
-        foreach ($inspections as $inspection) {
-            $this->addInspection($inspection);
+        foreach ($inspections as $name => $inspection) {
+            if(is_numeric($name)){
+                $name = null;
+            }
+            $this->addInspection($inspection, $name);
         }
     }
 
@@ -49,11 +54,20 @@ class StateInspector implements StateInspectorInterface
      */
     final public function inspection(string $name, $object, $bubble = false): array
     {
+        if (isset($this->inspections[$name]) === false) {
+            $msg = $name.' no such inspection!';
+            throw new StateInspectorException(
+                new Issue($msg, $name.' is no inspection.', 'Please create new Inspection or use other name.'),
+                $msg
+            );
+        }
         $inspection = $this->inspections[$name];
 
         if ($inspection->supports($object) === false) {
+            $msg = $name.' inspection doesnt support object type!';
             throw new StateInspectorException(
-                $name.' Inspection doesnt support object type! Please create new Inspector for different type.'
+                new Issue($msg, get_class($object).' is not supported.', 'Please create new Inspection for this type.'),
+                $msg
             );
         }
 
@@ -80,11 +94,15 @@ class StateInspector implements StateInspectorInterface
 
     /**
      * @param InspectionInterface $inspection
+     * @param string|null $name
      * @return StateInspectorInterface
      */
-    final public function addInspection(InspectionInterface $inspection): StateInspectorInterface
+    final public function addInspection(InspectionInterface $inspection, string $name = null): StateInspectorInterface
     {
-        $this->inspections[$inspection->getName()] = $inspection;
+        if(null === $name){
+            $name = get_class($inspection);
+        }
+        $this->inspections[$name] = $inspection;
 
         return $this;
     }
