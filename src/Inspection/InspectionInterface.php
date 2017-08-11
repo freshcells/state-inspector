@@ -2,6 +2,8 @@
 
 namespace Freshcells\StateInspector\Inspection;
 
+use Freshcells\StateInspector\Issue\IssueInterface;
+
 interface InspectionInterface
 {
     /**

@@ -5,6 +5,7 @@ namespace Freshcells\StateInspector;
 use Freshcells\StateInspector\Exception\StateInspectorException;
 use Freshcells\StateInspector\Inspection\InspectionInterface;
 use Freshcells\StateInspector\Issue\Issue;
+use Freshcells\StateInspector\Issue\IssueInterface;
 
 class StateInspector implements StateInspectorInterface
 {
@@ -20,7 +21,7 @@ class StateInspector implements StateInspectorInterface
 
     /**
      * StateInspectorManager constructor.
-     * @param InspectorInterface[] $inspections
+     * @param InspectionInterface[] $inspections
      */
     public function __construct(array $inspections = [])
     {
@@ -49,7 +50,7 @@ class StateInspector implements StateInspectorInterface
      * @param string $name
      * @param mixed $object
      * @param bool $bubble
-     * @return InspectionInterface[]
+     * @return IssueInterface[]
      * @throws \Exception
      */
     final public function inspection(string $name, $object, $bubble = false): array
@@ -64,7 +65,7 @@ class StateInspector implements StateInspectorInterface
         $inspection = $this->inspections[$name];
 
         if ($inspection->supports($object) === false) {
-            $msg = $name.' inspection doesnt support object type!';
+            $msg = $name.' inspection does not support object type!';
             throw new StateInspectorException(
                 new Issue($msg, get_class($object).' is not supported.', 'Please create new Inspection for this type.'),
                 $msg

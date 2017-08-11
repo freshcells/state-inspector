@@ -3,6 +3,7 @@
 namespace Freshcells\StateInspector;
 
 use Freshcells\StateInspector\Inspection\InspectionInterface;
+use Freshcells\StateInspector\Issue\IssueInterface;
 
 interface StateInspectorInterface
 {
