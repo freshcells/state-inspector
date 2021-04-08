@@ -5,9 +5,9 @@ namespace Freshcells\StateInspector\Test;
 class TestObject
 {
 
-    private $prop;
-    private $dateTime;
-    private $collection;
+    private string $prop;
+    private \DateTime $dateTime;
+    private array $collection;
 
     /**
      * TestObject constructor.
@@ -23,9 +23,9 @@ class TestObject
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getProp()
+    public function getProp(): string
     {
         return $this->prop;
     }

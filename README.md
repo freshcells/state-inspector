@@ -14,10 +14,6 @@ Inspect if a state tree, a nested object or any object has certain states or val
 An Inspector can take n Inspections and an Inspection can produce several Issues.
 The Inspector iterates Inspections which inspect the given object.  
 
-Each inspection has a success and failure callback.  
-In case of success you probably dont want to take action, in case of failure you could throw an exception
-and add the issue to the issue stack.
-
 When the *bubble* option is true it will throw an exception immediatly if one occurs.
 If *bubble* is false it will collect issues and they can be retrieved after Inspector has finished.
 
@@ -34,8 +30,7 @@ $ composer require freshcells/state-inspector
 
         $inspector = new StateInspector();
         $inspector->addInspection(new FooInspection());
-        $inspector->inspect($object);
-        $issues =  $inspector->getIssues()
+        $issues = $inspector->inspect($object);
 
 See tests.
 

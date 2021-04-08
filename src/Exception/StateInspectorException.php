@@ -6,26 +6,29 @@ use Freshcells\StateInspector\Issue\IssueInterface;
 
 class StateInspectorException extends \Exception
 {
-    private $issue;
+    /**
+     * @var IssueInterface[]
+     */
+    private array $issues;
 
     /**
      * StateInspectorException constructor.
-     * @param IssueInterface $issue
+     * @param IssueInterface[] $issues
      * @param string $message
-     * @param null $code
+     * @param int|null $code
      */
-    public function __construct(IssueInterface $issue, $message = '', $code = null)
+    public function __construct(array $issues, string $message = '', int $code = null)
     {
-        $this->issue = $issue;
+        $this->issues = $issues;
 
-        parent::__construct($message, $code);
+        parent::__construct('StateInspector found '.count($issues).' issues!', $code);
     }
 
     /**
-     * @return IssueInterface
+     * @return IssueInterface[]
      */
-    public function getIssue(): IssueInterface
+    public function getIssues(): array
     {
-        return $this->issue;
+        return $this->issues;
     }
 }

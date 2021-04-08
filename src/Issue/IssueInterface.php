@@ -4,7 +4,9 @@ namespace Freshcells\StateInspector\Issue;
 
 interface IssueInterface
 {
-    public function getSubject();
-    public function getDescription();
-    public function getSolution();
+    public function getSubject(): string;
+
+    public function getDescription(): string;
+
+    public function getSolution(): string;
 }

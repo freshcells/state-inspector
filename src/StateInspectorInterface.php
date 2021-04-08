@@ -7,30 +7,24 @@ use Freshcells\StateInspector\Issue\IssueInterface;
 
 interface StateInspectorInterface
 {
-
     /**
      * @param mixed $object
      * @param bool $bubble
+     * @return IssueInterface[]
      */
-    public function inspect($object, $bubble = false);
+    public function inspect($object, bool $bubble = false): array;
 
     /**
      * @param string $name
-     * @param mixed $object
      * @param bool $bubble
+     * @param mixed $object
      * @return InspectionInterface[]
-     * @throws \Exception
      */
-    public function inspection(string $name, $object, $bubble = false): array;
-
-    /**
-     * @return IssueInterface[]
-     */
-    public function getIssues(): array;
+    public function inspection(string $name, $object, bool $bubble = false): array;
 
     /**
      * @param InspectionInterface $inspection
-     * @return StateInspectorInterface
+     * @return $this
      */
-    public function addInspection(InspectionInterface $inspection): StateInspectorInterface;
+    public function addInspection(InspectionInterface $inspection): self;
 }

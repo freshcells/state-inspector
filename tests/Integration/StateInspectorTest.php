@@ -2,11 +2,13 @@
 
 namespace Freshcells\StateInspector\Test\Integration;
 
+use Freshcells\StateInspector\Exception\StateInspectorException;
 use Freshcells\StateInspector\StateInspector;
 use Freshcells\StateInspector\Test\PelicanInspection;
 use Freshcells\StateInspector\Test\TestObject;
+use PHPUnit\Framework\TestCase;
 
-class StateInspectorTest extends \PHPUnit_Framework_TestCase
+class StateInspectorTest extends TestCase
 {
     public function testInspect()
     {
@@ -14,8 +16,8 @@ class StateInspectorTest extends \PHPUnit_Framework_TestCase
         $object            = new TestObject('prop', new \DateTime('now'), ['Herron', 'Stork', 'Pelican']);
         $pelicanInspection = new PelicanInspection();
         $inspector->addInspection($pelicanInspection);
-        $inspector->inspect($object);
-        $this->assertCount(0, $inspector->getIssues());
+        $issues = $inspector->inspect($object);
+        $this->assertCount(0, $issues);
     }
 
     public function testInspection()
@@ -24,29 +26,28 @@ class StateInspectorTest extends \PHPUnit_Framework_TestCase
         $pelicanInspection = new PelicanInspection();
         $inspector         = new StateInspector([$pelicanInspection]);
         $inspector->addInspection($pelicanInspection, 'other_pelican_inspection');
-        $inspector->inspection('other_pelican_inspection', $object);
-        $inspector->inspection(PelicanInspection::class, $object);
-        $this->assertCount(0, $inspector->getIssues());
+        $issues = $inspector->inspection('other_pelican_inspection', $object);
+        $this->assertCount(0, $issues);
+        $issues = $inspector->inspection(PelicanInspection::class, $object);
+        $this->assertCount(0, $issues);
     }
 
     public function testFailInspect()
     {
         $inspector         = new StateInspector();
-        $object            = new TestObject('prop', new \DateTime('now'), ['Herron', 'Stork', 'Seagull']);
+        $object            = new TestObject('prop', new \DateTime('now'), ['Heron', 'Stork', 'Seagull']);
         $pelicanInspection = new PelicanInspection();
         $inspector->addInspection($pelicanInspection);
-        $inspector->inspect($object);
-        $this->assertCount(1, $inspector->getIssues());
-        $this->assertEquals('No Pelican found!', $inspector->getIssues()[0]->getSubject());
+        $issues = $inspector->inspect($object);
+        $this->assertCount(1, $issues);
+        $this->assertEquals('No Pelican found!', $issues[0]->getSubject());
     }
 
-    /**
-     * @expectedException Freshcells\StateInspector\Exception\StateInspectorException
-     */
     public function testFailBubbleInspect()
     {
+        $this->expectException(StateInspectorException::class);
         $inspector         = new StateInspector();
-        $object            = new TestObject('prop', new \DateTime('now'), ['Herron', 'Stork', 'Seagull']);
+        $object            = new TestObject('prop', new \DateTime('now'), ['Heron', 'Stork', 'Seagull']);
         $pelicanInspection = new PelicanInspection();
         $inspector->addInspection($pelicanInspection);
         $inspector->inspect($object, true);

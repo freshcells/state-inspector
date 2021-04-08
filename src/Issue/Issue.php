@@ -4,9 +4,9 @@ namespace Freshcells\StateInspector\Issue;
 
 class Issue implements IssueInterface
 {
-    private $subject;
-    private $description;
-    private $solution;
+    private string $subject;
+    private string $description;
+    private string $solution;
 
     /**
      * Issue constructor.

@@ -12,12 +12,7 @@ class StateInspector implements StateInspectorInterface
     /**
      * @var InspectionInterface[]
      */
-    private $inspections = [];
-
-    /**
-     * @var IssueInterface[]
-     */
-    private $issues = [];
+    private array $inspections = [];
 
     /**
      * StateInspectorManager constructor.
@@ -36,14 +31,17 @@ class StateInspector implements StateInspectorInterface
     /**
      * @param mixed $object
      * @param bool $bubble
+     * @return IssueInterface[]
+     * @throws StateInspectorException
      */
-    final public function inspect($object, $bubble = false)
+    final public function inspect($object, bool $bubble = false): array
     {
-        $this->issues = []; //reset
+        $issues = [];
         foreach ($this->inspections as $name => $inspection) {
-            $issues       = $this->inspection($name, $object, $bubble);
-            $this->issues = array_merge($this->issues, $issues);
+            $issues = array_merge($issues, $this->inspection($name, $object, $bubble));
         }
+
+        return $issues;
     }
 
     /**
@@ -51,14 +49,14 @@ class StateInspector implements StateInspectorInterface
      * @param mixed $object
      * @param bool $bubble
      * @return IssueInterface[]
-     * @throws \Exception
+     * @throws StateInspectorException
      */
-    final public function inspection(string $name, $object, $bubble = false): array
+    final public function inspection(string $name, $object, bool $bubble = false): array
     {
         if (isset($this->inspections[$name]) === false) {
             $msg = $name.' no such inspection!';
             throw new StateInspectorException(
-                new Issue($msg, $name.' is no inspection.', 'Please create new Inspection or use other name.'),
+                [new Issue($msg, $name.' is no inspection.', 'Please create new Inspection or use other name.')],
                 $msg
             );
         }
@@ -67,30 +65,18 @@ class StateInspector implements StateInspectorInterface
         if ($inspection->supports($object) === false) {
             $msg = $name.' inspection does not support object type!';
             throw new StateInspectorException(
-                new Issue($msg, get_class($object).' is not supported.', 'Please create new Inspection for this type.'),
+                [new Issue($msg, get_class($object).' is not supported.', 'Please create new Inspection for this type.')],
                 $msg
             );
         }
 
-        try {
-            $inspection->inspect($object)
-                ? $inspection->success()
-                : $inspection->failure();
-        } catch (\Exception $e) {
-            if ($bubble) {
-                throw $e;
-            }
+        $issues = $inspection->inspect($object);
+
+        if ($bubble) {
+            throw new StateInspectorException($issues);
         }
 
-        return $inspection->getIssues();
-    }
-
-    /**
-     * @return IssueInterface[]
-     */
-    final public function getIssues(): array
-    {
-        return $this->issues;
+        return $issues;
     }
 
     /**

@@ -9,27 +9,10 @@ interface InspectionInterface
     /**
      * inspects the object
      *
-     * @param $object
-     * @return bool
-     */
-    public function inspect($object):bool;
-
-    /**
-     * success check callback
-     */
-    public function success();
-
-    /**
-     * failure check callback
-     */
-    public function failure();
-
-    /**
-     * returns all found issues
-     *
+     * @param mixed $object
      * @return IssueInterface[]
      */
-    public function getIssues():array;
+    public function inspect($object): array;
 
     /**
      * detects if Inspection supports given object
@@ -37,5 +20,5 @@ interface InspectionInterface
      * @param mixed $object
      * @return bool
      */
-    public function supports($object):bool;
+    public function supports($object): bool;
 }
