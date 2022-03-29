@@ -1,4 +1,4 @@
-name: state-inspector
+name: freshcells/state-inspector
 
 on:
     pull_request: ~
@@ -27,6 +27,7 @@ jobs:
                   php-version: '7.4'
             - name: PHPUnit
               run: |
+                  composer install -n --prefer-dist
                   php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
     tests-php-8-0:
         runs-on: ubuntu-latest
@@ -37,6 +38,7 @@ jobs:
                   php-version: '8.0'
             - name: PHPUnit
               run: |
+                  composer install -n --prefer-dist
                   php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
     tests-php-8-1:
         runs-on: ubuntu-latest
@@ -47,4 +49,5 @@ jobs:
                   php-version: '8.1'
             - name: PHPUnit
               run: |
+                  composer install -n --prefer-dist
                   php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
