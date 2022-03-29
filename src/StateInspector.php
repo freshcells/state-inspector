@@ -65,7 +65,13 @@ class StateInspector implements StateInspectorInterface
         if ($inspection->supports($object) === false) {
             $msg = $name.' inspection does not support object type!';
             throw new StateInspectorException(
-                [new Issue($msg, get_class($object).' is not supported.', 'Please create new Inspection for this type.')],
+                [
+                    new Issue(
+                        $msg,
+                        get_class($object).' is not supported.',
+                        'Please create new Inspection for this type.'
+                    ),
+                ],
                 $msg
             );
         }
