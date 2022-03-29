@@ -1,4 +1,4 @@
-name: state-inspector
+name: freshcells/state-inspector
 
 on:
     pull_request: ~
